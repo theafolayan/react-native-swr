@@ -4,6 +4,7 @@ import { AppState, Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type NetInfo from '@react-native-community/netinfo'
 import type { NetInfoState } from '@react-native-community/netinfo'
+import {NetInfo} from '@react-native-community/netinfo'
 
 type Props<Data, Error> = {
   /**
@@ -58,9 +59,6 @@ export function useSWRNativeRevalidate<Data = any, Error = any>(
       typeof NetInfo.addEventListener
     > | null = null
     if (revalidateOnReconnect && Platform.OS !== 'web') {
-      // inline require to avoid breaking SSR when window doesn't exist
-      const Network: typeof NetInfo = require('@react-native-community/netinfo')
-        .default
       // SWR does all of this on web.
       unsubscribeReconnect = Network.addEventListener((state) => {
         if (
